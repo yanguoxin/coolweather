@@ -1,12 +1,14 @@
 package www.guoxin.com.weather.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -21,7 +23,16 @@ import static android.R.attr.type;
  * Created by Administrator on 2016/10/27 0027.
  */
 
-public class WeatherActicity extends Activity {
+public class WeatherActicity extends Activity implements View.OnClickListener{
+    /*
+    切换城市按钮
+     */
+    private Button switchCity;
+    /*
+    更新天气按钮
+     */
+    private Button refreshWeather;
+
     public LinearLayout weatherInfoLayout;
     /*
     用于显示城市名
@@ -61,6 +72,10 @@ public class WeatherActicity extends Activity {
         temp1Text = (TextView) findViewById(R.id.temp1);
         temp2Text = (TextView) findViewById(R.id.temp2);
         currentDateText = (TextView) findViewById(R.id.current_date);
+
+        switchCity = (Button) findViewById(R.id.switch_city);
+        refreshWeather = (Button) findViewById(R.id.refresh_weather);
+
         String countyCode = getIntent().getStringExtra("county_code");
         if (!TextUtils.isEmpty(countyCode)){
             //有县级代号时就去查询天气
@@ -71,6 +86,29 @@ public class WeatherActicity extends Activity {
         }else {
             //没有县级代号时就直接显示本地天气
             showWeather();
+        }
+        switchCity.setOnClickListener(this);
+        refreshWeather.setOnClickListener(this);
+    }
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.switch_city:
+                Intent intent = new Intent(this,ChooseAreaActivity.class);
+                intent.putExtra("from_weather_activity",true);
+                startActivity(intent);
+                finish();
+                break;
+            case R.id.refresh_weather:
+                publishText.setText("同步中...");
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+                String weatherCode = prefs.getString("weather_code","");
+                if (!TextUtils.isEmpty(weatherCode)){
+                    queryWeatherInfo(weatherCode);
+                }
+                break;
+            default:
+                break;
         }
     }
 
@@ -142,4 +180,5 @@ public class WeatherActicity extends Activity {
        weatherInfoLayout.setVisibility(View.VISIBLE);
        cityNameText.setVisibility(View.VISIBLE);
    }
+
 }
