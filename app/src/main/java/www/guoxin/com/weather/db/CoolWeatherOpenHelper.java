@@ -12,7 +12,7 @@ import android.util.Log;
 public class CoolWeatherOpenHelper extends SQLiteOpenHelper{
     String TAG = "CoolWeatherOpenHelper";
     /*
-    Provivince 建表语句
+    Province 建表语句
      */
     public static final String CREATE_PROVINCE = "create table Province("
             + "id integer primary key autoincrement," //自增长主键
@@ -25,7 +25,7 @@ public class CoolWeatherOpenHelper extends SQLiteOpenHelper{
     public static final String CREATE_CITY = "create table City("
             + "id integer primary key autoincrement,"  //自主增长键
             + "city_name text,"  //城市名
-            + "ciry_code text,"  //市级代号
+            + "city_code text,"  //市级代号
             + "province_id integer)"; //City表关联Province表的外键
 
     /*
