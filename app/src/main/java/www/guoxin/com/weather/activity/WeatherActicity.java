@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import www.guoxin.com.weather.R;
+import www.guoxin.com.weather.service.AutoUpdateService;
 import www.guoxin.com.weather.util.HttpCallbackListener;
 import www.guoxin.com.weather.util.HttpUtil;
 import www.guoxin.com.weather.util.Utility;
@@ -179,6 +180,8 @@ public class WeatherActicity extends Activity implements View.OnClickListener{
        currentDateText.setText(prefs.getString("current_date",""));
        weatherInfoLayout.setVisibility(View.VISIBLE);
        cityNameText.setVisibility(View.VISIBLE);
+       Intent intent = new Intent(this, AutoUpdateService.class);
+       startService(intent);
    }
 
 }
